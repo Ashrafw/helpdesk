@@ -2,8 +2,15 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 //  if params does not exist, the return a 404 page
-export const dynamicParams = false;
+export const dynamicParams = true;
 
+export async function generateMetadata({ params }) {
+  const response = await fetch(`http://localhost:4000/tickets/${params.id}`);
+  const ticket = await response.json();
+  return {
+    title: `Ticket | ${ticket.title}`,
+  };
+}
 // generate all possible params to help future fetches
 export async function generateStaticParams() {
   const response = await fetch("http://localhost:4000/tickets", {
@@ -30,7 +37,6 @@ export default async function TicketDetails({ params }) {
   const id = params.id;
 
   const ticket = await getTicket(id);
-  console.log("ticket", ticket);
   return (
     <main className="">
       <nav>

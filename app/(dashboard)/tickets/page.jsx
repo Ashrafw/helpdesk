@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import TicketList from "./TicketList";
 import Loading from "../loading";
 export const metadata = {
-  title: "Tickets",
+  title: "Community Helpdesk | tickets",
 };
 export default function Tickets() {
   return (
