@@ -2,7 +2,15 @@ import React from "react";
 import Logo from "../components//dojo-logo.png";
 import Image from "next/image";
 import Link from "next/link";
-export default function AuthLayout({ children }) {
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+export default async function AuthLayout({ children }) {
+  const supabase = createServerComponentClient({ cookies });
+  const { data } = await supabase.auth.getSession();
+  if (data.session) {
+    redirect("/");
+  }
   return (
     <>
       <nav>
@@ -14,8 +22,8 @@ export default function AuthLayout({ children }) {
           quality={100}
         />
         <h1>Community Helpdesk</h1>
-        <Link href="/singup">Sign up</Link>
-        <Link href="/Login">Login</Link>
+        <Link href="/signup">Sign up</Link>
+        <Link href="/login">Login</Link>
       </nav>
       {children}
     </>
